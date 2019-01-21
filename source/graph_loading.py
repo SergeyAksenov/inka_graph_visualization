@@ -1,5 +1,7 @@
-from numpy import genfromtxt
+import numpy as np
 
 def load_graph(input_path,delimiter=','):
-    graph_matrix = genfromtxt(input_path, delimiter=delimiter)
-    return None
+    if delimiter is None:
+        delimiter = ','
+    graph_matrix = np.loadtxt(input_path, delimiter=delimiter)
+    return graph_matrix

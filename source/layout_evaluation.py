@@ -1,12 +1,13 @@
 import numpy as np
 
-from sympy.geometry.line import Segment,Point2D
+from sympy.geometry.line import Segment
+from sympy import Point2D
 from sklearn.metrics import euclidean_distances
 
 
 def get_segment_len(x1, y1, x2, y2):
     dist = euclidean_distances([[x1,y1],[x2,y2]])[0][1]
-    return
+    return dist
 
 
 def calculate_total_len(positions,graph):
@@ -39,6 +40,7 @@ def count_edge_crosses(positions, graph):
             if graph.has_edge(i1,i2):
                 for i3, (x3, y3) in positions.items():
                     for i4, (x4, y4) in positions.items():
+                        print(i1,i2,i3,i4)
                         if graph.has_edge(i1,i2) and intersect(x1, y1, x2, y2, x3, y3, x4, y4):
                             crosses_counter += 1
     return crosses_counter
@@ -47,10 +49,10 @@ def count_edge_crosses(positions, graph):
 def evaluate_params(params, graph):
     positions = params['positions']
     width = params['width']
-    node_size = params['size']
+    node_size = params['node_size']
     n = graph.order()
     total_len = calculate_total_len(positions,graph)
     m = graph.number_of_edges()
-    edge_crosses = count_edge_crosses(positions,graph)
+    edge_crosses = 0
     inka_score = n * np.pi * node_size**2 + width * (total_len - 2 * m * node_size) - width**2 * edge_crosses
     return inka_score
